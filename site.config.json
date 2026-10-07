@@ -1,0 +1,25 @@
+{
+  "name": "DFIR Guide",
+  "subtitle": "한국어 디지털 포렌식 · 침해사고 대응",
+  "url": "https://dfidwiz-sketch.github.io/dfir-guide/",
+  "repo": "https://github.com/DFIDwiz-sketch/dfir-guide",
+  "categories": [
+    {"id":"fundamentals","label":"DFIR 시작하기","group":"기초와 시스템","icon":"book","description":"증거를 보존하고, 사실과 가설을 구분하는 조사 습관."},
+    {"id":"internals","label":"시스템 내부 구조","group":"기초와 시스템","icon":"chip","description":"프로세스·메모리·권한·토큰의 내부 구조에서 보안 원리를 이해합니다."},
+    {"id":"programming","label":"보안 프로그래밍","group":"기초와 시스템","icon":"terminal","description":"Python 분석 자동화부터 C·메모리·어셈블리 학습까지."},
+    {"id":"windows","label":"Windows 포렌식","group":"호스트 포렌식","icon":"window","description":"이벤트 로그와 실행 흔적을 연결해 호스트의 행위를 재구성합니다."},
+    {"id":"linux","label":"Linux 포렌식","group":"호스트 포렌식","icon":"terminal","description":"인증, 프로세스, 파일과 지속성 흔적을 조사합니다."},
+    {"id":"memory","label":"메모리 포렌식","group":"호스트 포렌식","icon":"chip","description":"디스크에 남지 않은 프로세스와 메모리의 증거를 확인합니다."},
+    {"id":"network","label":"네트워크 포렌식","group":"네트워크와 인증","icon":"network","description":"PCAP과 프로토콜 로그로 통신의 맥락을 복원합니다."},
+    {"id":"identity","label":"인증 · Active Directory","group":"네트워크와 인증","icon":"key","description":"NTLM, 계정과 인증 흐름의 공격 조건 및 방어를 이해합니다."},
+    {"id":"web-security","label":"웹 보안","group":"공격 원리와 분석","icon":"window","description":"HTTP·인증·접근 제어와 취약점의 원인을 실습으로 이해합니다."},
+    {"id":"malware","label":"악성코드 · 리버싱","group":"공격 원리와 분석","icon":"chip","description":"PE 구조, 정적·동적 분석과 디버거로 프로그램의 행동을 설명합니다."},
+    {"id":"threat-intelligence","label":"APT · 위협 인텔리전스","group":"공격 원리와 분석","icon":"target","description":"공개 보고서의 근거와 ATT&CK 행동을 방어 관점으로 연결합니다."},
+    {"id":"blue-team","label":"블루팀 · 탐지 엔지니어링","group":"보안 운영","icon":"shield","description":"데이터 수집, 탐지, 위협 헌팅과 대응으로 방어를 운영합니다."},
+    {"id":"red-team","label":"레드팀","group":"보안 운영","icon":"target","description":"공격자의 관점에서 보안 가정을 검증하고 결과를 기록합니다."},
+    {"id":"purple-team","label":"퍼플팀","group":"보안 운영","icon":"layers","description":"공격 재현과 방어 관찰을 연결해 탐지의 빈틈을 개선합니다."},
+    {"id":"tools","label":"도구 가이드","group":"실무 참고","icon":"tool","description":"Splunk, Zeek, Arkime, Suricata와 호스트 분석 도구의 역할."},
+    {"id":"playbooks","label":"대응 플레이북","group":"실무 참고","icon":"clipboard","description":"초기 분류부터 증거 보존, 범위 확인과 복구까지."},
+    {"id":"learning","label":"학습 로드맵 · 실습 노트","group":"학습과 실습","icon":"book","description":"원리 → 흔적 → 탐지 → 대응을 한 주제씩 연결하는 학습 경로."}
+  ]
+}
