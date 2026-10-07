@@ -2,7 +2,7 @@
 title: "시스템 이해에서 DFIR·퍼플팀까지"
 description: "입문 조사부터 네트워크, 시스템, 인증·AD, 프로그래밍, 악성코드와 퍼플팀까지 읽을 글·실습·완료 기준을 연결한 8단계 경로."
 category: "learning"
-updated: "2026-10-07"
+updated: "2026-10-08"
 tags: ["학습 로드맵", "실습", "전문 역량"]
 order: "32"
 level: "입문"
@@ -77,6 +77,18 @@ Python으로 작은 JSONL 파일의 이벤트 종류와 오류를 집계합니�
 정상 예약 작업 하나를 만들어 생성·변경·실행·삭제를 관찰합니다. 호스트 원문, 수집 결과, SIEM 검색과 경보까지 도착 여부를 각각 기록합니다. 정상 사례와 비교하고 수집 누락이나 불필요한 경보 조건을 수정한 뒤 같은 실습을 반복합니다.
 
 **완료 기준:** 실행 성공과 탐지 성공을 따로 증명하고, 개선 전후에 무엇이 바뀌었는지 근거를 제시할 수 있습니다.
+
+## 기초 실습 다음의 연결 과정
+
+첫 조사 메모를 완성했다면 다음 세 묶음 중 필요한 경로를 선택합니다. 각 글의 완료 기준을 충족한 뒤 다음 글로 넘어갑니다.
+
+| 경로 | 읽고 수행할 순서 | 완성할 결과물 |
+| --- | --- | --- |
+| 인증과 권한 | [Kerberos](kerberos-basics.html) → [AD 조사](ad-investigation.html) → [자격 증명 보호](credential-architecture.html) | 티켓·검증·대상 접근과 권한을 구분한 인증 조사표 |
+| 시스템 증거 | [Windows 내부 구조](windows-internals.html) → [Linux 지속성](linux-persistence.html) → [메모리 조사](memory-investigation.html) | 현재 상태·설정·과거 실행을 구분한 호스트 메모 |
+| 탐지와 대응 | [탐지 설계](blue-detection.html) → [레드팀 검증](red-team-validation.html) → [퍼플팀 검증](purple-validation.html) → [초기 대응](incident-triage.html) | 규칙 검증표, 구간별 수집 확인과 대응·인계 기록 |
+
+Windows·AD 실습 환경이나 메모리 이미지가 없는 경우에는 가상 자료와 조사 계획부터 작성합니다. 아직 실행하지 않은 단계를 완료된 실험으로 기록하지 않습니다.
 
 ## 주간 학습 운영
 
