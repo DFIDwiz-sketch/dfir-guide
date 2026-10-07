@@ -13,6 +13,12 @@ NTLM 인증·공격·방어 전체 가이드와 Word 다운로드, 주제별 초
 
 이 주소는 Pages 활성화와 배포가 성공한 뒤 사용할 수 있습니다. 권한·Pages 설정 등으로 워크플로가 실패하면 해당 실행의 오류를 먼저 확인하세요.
 
+## 단계별 학습 콘텐츠
+
+처음 방문하면 `first-investigation.html`에서 가상 로그 12개를 분석합니다. JSONL, SHA-256 목록과 외부 패키지가 필요 없는 Python 요약 스크립트를 `downloads/`에 포함합니다. 실제 사건이나 제품의 원본 로그 형식이 아닌 학습용 예제입니다.
+
+DFIR 기본, 증거 보존, Splunk, Windows·Linux 초기 조사, Windows 이벤트, 네트워크 조사, Velociraptor, 예약 작업과 NTLM 플레이북은 준비물·단계·결과 해석·완료 기준을 포함합니다. `learning-roadmap.html`에서 8단계 학습 경로를 확인합니다.
+
 ## 새 글 추가하기
 
 `templates/article.md`를 복사해 `content/<분류>/my-article.md`로 저장합니다. 파일 이름에는 영문 소문자·숫자·하이픈만 사용하고 사이트 전체에서 중복되지 않게 합니다.
