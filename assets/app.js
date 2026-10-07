@@ -21,6 +21,7 @@ async function search(){const gen=++searchGeneration;const query=input.value.nor
 function openSearch(){closeMenu();dialog.showModal();input.focus();search();}
 $('.search-trigger').addEventListener('click',openSearch);
 $('.search-close').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();dialog.close();}});
 dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
 input.addEventListener('input',search);
 document.addEventListener('keydown',e=>{const tag=document.activeElement?.tagName;if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(tag)&&!document.activeElement?.isContentEditable&&!dialog.open){e.preventDefault();openSearch();}});
