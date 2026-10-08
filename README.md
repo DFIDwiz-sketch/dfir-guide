@@ -98,3 +98,12 @@ npm run preview
 2022년 SEC450.2의 일반 주제를 공개 공식 자료와 독립 가이드로 확장했습니다. 원본 슬라이드·그림·VM을 게시하지 않습니다. `network-blue-team-path.html`에서 관측 지도, 수집과 증거, DNS 조사·헌팅, HTTP/HTTPS, 메일·DMARC, 원격 프로토콜과 통합 실습으로 진행합니다. 확인일은 2026-10-08입니다.
 
 `downloads/network-day2-events.jsonl`은 정규화한 가상 기록 20개이며 제품 원본 형식이 아닙니다. `network-day2-mail.eml`은 발송하지 않은 비작동 헤더 예로 실제 DKIM 서명이 없습니다. `network-investigation-template.md`는 증거·가설·관측 공백·인계를 기록하는 양식입니다. Python·Splunk의 예시 집계와 한계를 실습 글에 설명합니다.
+
+
+## 블루팀 필수지식
+
+블루팀 메뉴 아래 `blue-team-essentials` 하위 섹션을 제공합니다. `category-blue-team-essentials.html`에서 1일차 14개·2일차 12개 글을 교재 장 제목과 순서로 읽습니다. 설명·예제·실습은 독립적으로 작성했으며 교재 본문·그림·Lab Workbook·VM은 게시하지 않습니다.
+
+각 글의 `course_day`, `course_order`, `chapter_title`, `textbook_page`, `lesson_type` 메타데이터로 일차·순서·영문 제목·인쇄 쪽수·유형을 표시합니다. 이전·다음 학습과 블루팀 부모 메뉴를 연결합니다. 검색에는 하위 분류와 영문 장 제목이 포함됩니다.
+
+추가 가상 자료는 `downloads/blue-team-essentials-events.ndjson` 6개와 `downloads/blue-team-essentials-http.txt` 대화 예입니다. 제품 원본 스키마·PCAP이 아니며 인터넷 연결이나 실제 메일 발송을 포함하지 않습니다.

@@ -2,7 +2,7 @@
 title: "블루팀 네트워크 학습 경로: DNS·웹·메일에서 조사까지"
 description: "2022년 2일차 교재의 주제를 최신 표준과 비교하고 관측·수집·프로토콜 분석·통합 실습으로 연결합니다."
 category: "network"
-updated: "2026-10-08"
+updated: "2026-10-09"
 tags: ["네트워크 블루팀", "DNS", "HTTP", "이메일"]
 order: "1"
 level: "입문 · 실무 확장"
@@ -70,3 +70,7 @@ level: "입문 · 실무 확장"
 [네트워크 통합 실습](network-capstone.html)의 20개 사건 기록을 정리합니다. 정상 요청, 미확인 DNS 패턴, 자료가 없는 암호화 연결, 메일 규칙 변경을 구분하고 조사 범위와 인계 요청을 작성합니다.
 
 **완료 기준:** 관찰된 자료로 증명한 것과 아직 증명하지 못한 것을 다른 분석가에게 설명할 수 있습니다. [조사 양식](downloads/network-investigation-template.md)을 사용하고 운영 과정의 [사건 관리](case-management.html)로 연결합니다.
+
+## 교재의 개념 순서로 읽기
+
+[블루팀 필수지식 · 2일차](category-blue-team-essentials.html#day2)에서는 DNS 이해와 DNS 분석·공격, HTTP 이해와 HTTP(S) 분석·공격을 별도 글로 설명합니다. SMTP 구조와 추가 프로토콜, 자체 실습도 교재 장 제목 순서로 제공합니다.

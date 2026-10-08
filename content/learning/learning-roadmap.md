@@ -2,7 +2,7 @@
 title: "시스템 이해에서 DFIR·퍼플팀까지"
 description: "입문 조사부터 네트워크, 시스템, 인증·AD, 프로그래밍, 악성코드와 퍼플팀까지 읽을 글·실습·완료 기준을 연결한 8단계 경로."
 category: "learning"
-updated: "2026-10-08"
+updated: "2026-10-09"
 tags: ["학습 로드맵", "실습", "전문 역량"]
 order: "32"
 level: "입문"
@@ -145,3 +145,7 @@ GOAD-Light는 AD 학습에 유용하지만 SaaS 토큰, CI/CD와 클라우드 �
 ## 네트워크 집중 과정 — 2일차 보강
 
 [네트워크 블루팀 경로](network-blue-team-path.html) → [관측 지도](network-architecture-visibility.html) → [수집과 증거](network-capture-evidence.html) → [DNS 조사](dns-investigation.html)·[DNS 헌팅](dns-abuse-hunting.html) → [웹 조사](http-investigation.html) → [메일 조사](email-investigation.html)·[원격 접속](remote-protocol-investigation.html) → [통합 실습](network-capstone.html) 순서로 진행합니다. 결과물은 흐름 지도, 원본 보존 기록, 근거·가설 표와 인계문입니다.
+
+## 교재 중심의 블루팀 필수지식
+
+[블루팀 → 블루팀 필수지식](category-blue-team-essentials.html)에서 1일차 운영·도구 14개와 2일차 네트워크 12개를 순서대로 학습합니다. 각 글의 영문 장 제목·인쇄 쪽수로 교재를 찾고, 핵심 개념·정상 예·자체 활동을 마친 뒤 기존 실무 경로로 이어갑니다.

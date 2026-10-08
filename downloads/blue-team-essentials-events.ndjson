@@ -1,0 +1,6 @@
+{"@timestamp": "2026-10-08T08:00:00Z", "record_id": "B001", "dataset": "bt1-essentials-v1", "record_type": "event", "protocol": "dns", "asset": "LAB-PC01", "query": "study.example", "source_ip": "192.0.2.10"}
+{"@timestamp": "2026-10-08T08:00:01Z", "record_id": "B002", "dataset": "bt1-essentials-v1", "record_type": "event", "protocol": "http", "asset": "LAB-PC01", "method": "GET", "status": 200, "host": "study.example"}
+{"@timestamp": "2026-10-08T08:02:00Z", "record_id": "B003", "dataset": "bt1-essentials-v1", "record_type": "event", "protocol": "identity", "asset": "LAB-PC01", "account": "learner", "result": "success", "device_state": "new"}
+{"@timestamp": "2026-10-08T08:02:01Z", "record_id": "B004", "dataset": "bt1-essentials-v1", "record_type": "alert", "asset": "LAB-PC01", "rule": "LAB-new-device", "related_id": "B003", "verdict": "unconfirmed"}
+{"@timestamp": "2026-10-08T08:03:00Z", "record_id": "B005", "dataset": "bt1-essentials-v1", "record_type": "event", "protocol": "http", "asset": "LAB-PC01", "method": "GET", "status": 302, "host": "study.example"}
+{"@timestamp": "2026-10-08T08:05:00Z", "record_id": "B006", "dataset": "bt1-essentials-v1", "record_type": "case_note", "case_id": "LAB-BT1-CASE", "related_id": "B004", "note": "Request owner confirmation; no compromise established."}

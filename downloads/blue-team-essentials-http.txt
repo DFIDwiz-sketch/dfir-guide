@@ -1,0 +1,28 @@
+SYNTHETIC HTTP/1.1 TRANSCRIPT — NOT A PCAP
+Addresses and names are fictional; no connection was made.
+Times: UTC. Content lengths below count ASCII body bytes.
+
+[H001 2026-10-08T08:10:00Z request]
+GET /docs/start?lang=ko HTTP/1.1
+Host: training.example
+User-Agent: LabBrowser/1.0
+Cookie: session=LABONLY
+
+[H001 response]
+HTTP/1.1 302 Found
+Location: /docs/next
+Content-Length: 0
+
+[H002 2026-10-08T08:10:02Z request — independently recorded]
+POST /docs/next HTTP/1.1
+Host: training.example
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 10
+
+mode=study
+[H002 response]
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 5
+
+hello
