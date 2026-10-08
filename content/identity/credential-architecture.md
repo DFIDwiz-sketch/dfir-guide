@@ -86,6 +86,12 @@ Microsoft의 해당 클래스 값 정의에서 Credential Guard를 나타내는 
 
 추가 공식 자료: [Microsoft — Credential Guard 구성과 검증](https://learn.microsoft.com/en-us/windows/security/identity-protection/credential-guard/configure), [Microsoft — whoami](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/whoami).
 
+## 온프레미스에서 클라우드로 이어지는 자격 증명
+
+NT hash·Kerberos 티켓·Windows access token과 OAuth access token은 같은 자료가 아닙니다. 브라우저 세션, 앱 동의와 서비스 principal 자격 증명까지 범위를 넓히면 비밀번호 변경만으로 접근이 모두 철회되지 않는 이유를 이해할 수 있습니다.
+
+[클라우드 계정·세션·토큰 조사](cloud-identity-response.html)에서 로그인·앱 권한·실제 서비스 접근과 철회 결과를 비교합니다. 개발·배포 계정은 [공급망 조사](software-supply-chain.html)로 연결합니다.
+
 ## 참고자료
 
 - [Microsoft — Access Tokens](https://learn.microsoft.com/en-us/windows/win32/secauthz/access-tokens)

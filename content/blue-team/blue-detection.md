@@ -84,6 +84,12 @@ index=lab_logs
 
 추가 공식 자료: [ATT&CK Scheduled Task](https://attack.mitre.org/techniques/T1053/005/), [Splunk Alert throttling](https://help.splunk.com/en/splunk-enterprise/alert-and-respond/alerting-manual/10.0/manage-alert-trigger-conditions-and-throttling/throttle-alerts).
 
+## 운영 전 수집 상태와 현대 환경 연결하기
+
+규칙의 성공 조건에 [source별 수집 상태·지연](telemetry-health.html)을 포함합니다. 특히 필요 시 Hunt로 들어오는 과거 자료는 실시간 스트림과 같은 시간 창으로 처리하면 누락되거나 현재 공격처럼 보일 수 있습니다.
+
+Windows 규칙을 확장할 때는 [클라우드 계정·앱 권한](cloud-identity-response.html), [ClickFix·RMM](clickfix-rmm-investigation.html), [암호화 통신 가시성](encrypted-network-visibility.html)의 데이터 요구사항을 먼저 확인합니다. 동일 ATT&CK 이름을 사용하는 규칙도 데이터와 적용 범위는 다를 수 있습니다.
+
 ## 참고자료
 
 - [MITRE ATT&CK](https://attack.mitre.org/)

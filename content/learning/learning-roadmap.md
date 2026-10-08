@@ -108,6 +108,21 @@ Windows·AD 실습 환경이나 메모리 이미지가 없는 경우에는 가�
 
 PortSwigger Academy는 웹 학습 랩, HTB Academy는 체계적인 침투 테스트 학습, pwn.college는 시스템·저수준 기초, Malware Unicorn RE101은 역분석 기초, CyberDefenders는 조사 실습에 활용할 수 있습니다. 비용·접근 조건·과정 구성은 각 원문에서 확인하고 현재 단계에 필요한 자료를 선택합니다.
 
+## 최신 위협과 운영 환경으로 확장하기
+
+기초가 잡히면 [2026 보안 우선순위](security-priorities-2026.html)에서 우리 환경과 관련 있는 경로를 고릅니다. 아래 순서는 이 사이트의 제안이며 공식 자격 과정은 아닙니다. 실제 계정·클러스터가 없어도 먼저 자료 지도와 조사표를 만들 수 있습니다.
+
+| 순서 | 읽고 수행할 내용 | 결과물 |
+| --- | --- | --- |
+| 1. 관측 검증 | [수집 상태·지연](telemetry-health.html), [암호화 통신](encrypted-network-visibility.html) | source별 지연·보존·가시성 표 |
+| 2. 현대 인증 | [클라우드 계정·토큰](cloud-identity-response.html) | 로그인·앱 권한·데이터 접근 타임라인 |
+| 3. 초기 진입 | [경계 장비](edge-exposure-response.html), [ClickFix·RMM](clickfix-rmm-investigation.html) | 노출 자산·진입·실행·미확인 증거 목록 |
+| 4. 클라우드와 빌드 | [워크로드 조사](cloud-container-forensics.html), [공급망](software-supply-chain.html) | 신원·빌드·배포·실행 연결표 |
+| 5. 피해와 복구 | [랜섬웨어·유출](ransomware-data-extortion.html) | 영향 범위 및 작은 데이터 복원 시험 기록 |
+| 6. AI 사용 검증 | [AI·에이전트 보안](ai-agent-security.html) | mock 도구의 권한·승인 경계 시험 |
+
+GOAD-Light는 AD 학습에 유용하지만 SaaS 토큰, CI/CD와 클라우드 데이터 감사까지 자동으로 포함하는 환경은 아닙니다. 별도 시험 환경과 데이터가 필요한 영역을 구분합니다.
+
 ## 참고자료
 
 - [PortSwigger Academy](https://portswigger.net/web-security)
