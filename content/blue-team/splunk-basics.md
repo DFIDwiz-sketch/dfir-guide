@@ -122,3 +122,7 @@ index=lab_logs
 
 - [Splunk — stats](https://help.splunk.com/en/splunk-cloud-platform/spl-search-reference/9.3.2408/search-commands/stats)
 - [Splunk — fieldsummary](https://help.splunk.com/en/splunk-cloud-platform/search/search-reference/10.3.2512/search-commands/fieldsummary)
+
+## 검색 결과를 운영 기록으로 연결하기
+
+후보를 찾았다면 [경보 분류](alert-triage.html)에서 원문·시간·장비·계정을 재확인하고 [사건 관리](case-management.html)에 기간·검색식·근거 ID와 제한을 남깁니다. 검색을 반복 경보로 만들려면 [탐지 명세](siem-use-case-lifecycle.html)의 필드·지연·정상 사례를 먼저 검증합니다.

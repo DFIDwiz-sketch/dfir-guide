@@ -95,3 +95,9 @@ Windows 규칙을 확장할 때는 [클라우드 계정·앱 권한](cloud-ident
 - [MITRE ATT&CK](https://attack.mitre.org/)
 - [NIST SP 800-61 Rev. 3](https://csrc.nist.gov/pubs/sp/800/61/r3/final)
 - [Microsoft — Audit Other Object Access Events](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/audit-other-object-access-events)
+
+## 탐지에서 블루팀 운영으로 확장하기
+
+이 실습의 후보 검색을 [탐지 수명주기](siem-use-case-lifecycle.html)의 명세·정상/누락/중복 시험과 연결합니다. 경보가 생기면 [분류 절차](alert-triage.html) → [사건 관리](case-management.html)로 넘어갑니다. 별도 [헌팅 과정](threat-hunting-workflow.html)은 경보 없이도 필요한 행동을 검증합니다.
+
+전체 흐름은 [블루팀 운영 학습 경로](blue-team-operations.html)에서 확인하고, 같은 가상 자료로 [통합 실습](blue-team-capstone.html)을 완성하세요.

@@ -18,7 +18,7 @@
     {"id":"web-security","label":"웹 보안","group":"공격 원리와 분석","icon":"window","description":"HTTP·인증·접근 제어와 취약점의 원인을 실습으로 이해합니다."},
     {"id":"malware","label":"악성코드 · 리버싱","group":"공격 원리와 분석","icon":"chip","description":"PE 구조, 정적·동적 분석과 디버거로 프로그램의 행동을 설명합니다."},
     {"id":"threat-intelligence","label":"APT · 위협 인텔리전스","group":"공격 원리와 분석","icon":"target","description":"공개 보고서의 근거와 ATT&CK 행동을 방어 관점으로 연결합니다."},
-    {"id":"blue-team","label":"블루팀 · 탐지 엔지니어링","group":"보안 운영","icon":"shield","description":"데이터 수집, 탐지, 위협 헌팅과 대응으로 방어를 운영합니다."},
+    {"id":"blue-team","label":"블루팀 · 탐지 엔지니어링","group":"보안 운영","icon":"shield","description":"SOC 운영·관측·경보 분류·사건 관리에서 탐지·헌팅·자동화와 개선까지 연결합니다."},
     {"id":"red-team","label":"레드팀","group":"보안 운영","icon":"target","description":"공격자의 관점에서 보안 가정을 검증하고 결과를 기록합니다."},
     {"id":"purple-team","label":"퍼플팀","group":"보안 운영","icon":"layers","description":"공격 재현과 방어 관찰을 연결해 탐지의 빈틈을 개선합니다."},
     {"id":"tools","label":"도구 가이드","group":"실무 참고","icon":"tool","description":"Splunk, Zeek, Arkime, Suricata와 호스트 분석 도구의 역할."},

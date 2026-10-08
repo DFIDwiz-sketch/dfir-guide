@@ -90,3 +90,7 @@ index=lab_logs _index_earliest=-1h _index_latest=now
 - [Splunk — 기본 필드](https://help.splunk.com/en?resourceId=Splunk_Knowledge_Usedefaultfields&version=splunk-9_3)
 - [Velociraptor — Client Monitoring](https://docs.velociraptor.app/docs/clients/monitoring/)
 - [Velociraptor Hunt와 수집 결과](velociraptor.html)
+
+## 관측 지도와 운영 담당 연결하기
+
+source별 기대 목록은 [자산·신원·로그 관측 지도](defensible-visibility.html)의 행위 요구사항과 연결합니다. 정상 시험을 통과한 필수 source 수와 미수집 source를 [SOC 운영 지표](soc-operating-model.html)에 따로 기록합니다. 검색에 나타난 source만 분모로 쓰면 완전히 끊긴 입력을 놓칩니다.

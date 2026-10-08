@@ -90,3 +90,7 @@ NIST SP 800-61 Rev. 3은 사고 대응을 조직의 위험 관리 활동과 연�
 
 - [NIST SP 800-61 Rev. 3](https://csrc.nist.gov/pubs/sp/800/61/r3/final)
 - [NIST SP 800-86](https://csrc.nist.gov/pubs/sp/800/86/final)
+
+## 대응 전후의 사건 관리와 운영 개선
+
+[경보 분류](alert-triage.html)에서 현재 판단과 긴급성을 확인하고 [사건 기록](case-management.html)에 조치 요청·실행·검증을 따로 남깁니다. 담당·권한·인계 기준은 [SOC 운영](soc-operating-model.html), 반복 작업은 [SOAR·AI 운영](soar-ai-operations.html)과 연결합니다. 복구 뒤 발견한 관측 공백을 담당·기한·완료 근거가 있는 개선 작업으로 바꿉니다.

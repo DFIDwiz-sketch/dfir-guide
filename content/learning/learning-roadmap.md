@@ -130,3 +130,14 @@ GOAD-Light는 AD 학습에 유용하지만 SaaS 토큰, CI/CD와 클라우드 �
 - [pwn.college](https://pwn.college/dojos)
 - [Malware Unicorn — RE101](https://malwareunicorn.org/workshops/re101)
 - [CyberDefenders Labs](https://cyberdefenders.org/blue-team-labs/)
+
+## 블루팀 도구와 운영을 연결하는 확장 과정
+
+[블루팀 운영 학습 경로](blue-team-operations.html)는 SOC 역할·관측 지도·경보 분류·사건 기록·인텔리전스·탐지·헌팅·자동화를 순서대로 연결합니다. 새로운 도구를 모두 설치할 필요 없이 기존 가상 자료와 네 가지 양식으로 시작할 수 있습니다.
+
+1. [SOC 운영](soc-operating-model.html)과 [관측 지도](defensible-visibility.html)에서 업무·권한·수집 공백을 적습니다.
+2. [경보 분류](alert-triage.html)와 [사건 관리](case-management.html)에서 사실·가설·추가 수집을 나눕니다.
+3. [위협 인텔리전스](threat-intelligence-operations.html) → [탐지 수명주기](siem-use-case-lifecycle.html) → [헌팅](threat-hunting-workflow.html)으로 행동을 검증합니다.
+4. [SOAR·AI 보조 분석](soar-ai-operations.html)에서 실패·중복·근거 검증을 설계하고 [통합 실습](blue-team-capstone.html)으로 인계문까지 완성합니다.
+
+**완료 기준:** 다른 분석가가 같은 자료에서 판단을 재확인하고 다음 조치·수집·개선 작업을 설명할 수 있습니다.

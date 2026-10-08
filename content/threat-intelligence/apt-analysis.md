@@ -61,3 +61,9 @@ ATT&CK 기술 ID·플랫폼·정의는 원문에서 확인하고 열람 날짜�
 - [MITRE ATT&CK](https://attack.mitre.org/)
 - [MITRE — Lazarus Group](https://attack.mitre.org/groups/G0032/)
 - [MITRE — APT38](https://attack.mitre.org/groups/G0082/)
+
+## 정보의 수명·공유·도구 운영으로 확장하기
+
+보고서 한 건을 정리한 뒤 [MISP·IOC·TLP 2.0 운영](threat-intelligence-operations.html)에서 공유 범위·관찰 기간·만료·내부 sighting을 관리합니다. 2022년의 Microsoft 명칭 안내는 현재 날씨 기반 분류와 대조하고 기관별 매핑의 범위·확인일을 남깁니다. ATT&CK v18의 기존 Data Sources deprecated 안내와 [Detection Strategies](https://attack.mitre.org/detectionstrategies/)를 확인하고 실제 로그 요구사항을 적습니다.
+
+출처: [Microsoft 현재 명칭](https://learn.microsoft.com/en-us/defender-xdr/microsoft-threat-actor-naming), [MITRE Data Sources 변경](https://attack.mitre.org/datasources/). 확인일: 2026-10-08.
