@@ -21,6 +21,8 @@ DFIR 기본, 증거 보존, Splunk, Windows·Linux 초기 조사, Windows 이벤
 
 인증·권한, 시스템 증거, 탐지·대응의 연결 과정도 제공합니다. Kerberos·AD·자격 증명, Windows 내부 구조·Linux 지속성·메모리, 레드팀·퍼플팀·사고 대응 가이드에서 단계별 관찰과 완료 기준을 확인할 수 있습니다.
 
+GOAD-Light 실습은 `goad-light-overview.html`에서 시작합니다. Windows/VirtualBox 설치, Splunk·Velociraptor·네트워크 센서 수집 검증, 제한된 공격 행동과 조사 기록을 네 편의 글로 연결합니다.
+
 ## 새 글 추가하기
 
 `templates/article.md`를 복사해 `content/<분류>/my-article.md`로 저장합니다. 파일 이름에는 영문 소문자·숫자·하이픈만 사용하고 사이트 전체에서 중복되지 않게 합니다.

@@ -82,6 +82,8 @@ Python으로 작은 JSONL 파일의 이벤트 종류와 오류를 집계합니�
 
 첫 조사 메모를 완성했다면 다음 세 묶음 중 필요한 경로를 선택합니다. 각 글의 완료 기준을 충족한 뒤 다음 글로 넘어갑니다.
 
+집에서 AD 공격과 블루팀 조사를 함께 연습하려면 [GOAD-Light 전체 과정](goad-light-overview.html) → [Windows/VirtualBox 설치](goad-light-install.html) → [Splunk·센서 수집](goad-light-telemetry.html) → [공격 행동과 조사](goad-light-investigation.html)로 진행합니다. VM 자원이 부족하면 수동 EVTX와 PCAP부터 시작할 수 있습니다.
+
 | 경로 | 읽고 수행할 순서 | 완성할 결과물 |
 | --- | --- | --- |
 | 인증과 권한 | [Kerberos](kerberos-basics.html) → [AD 조사](ad-investigation.html) → [자격 증명 보호](credential-architecture.html) | 티켓·검증·대상 접근과 권한을 구분한 인증 조사표 |
