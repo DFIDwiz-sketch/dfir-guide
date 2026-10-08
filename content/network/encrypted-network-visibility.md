@@ -71,3 +71,7 @@ QUIC·ECH를 강제로 켜거나 끄지 않아도 첫 비교는 가능합니다.
 - [IETF — RFC 8484 DoH](https://www.rfc-editor.org/rfc/rfc8484.html)
 - [IETF — RFC 7858 DoT](https://www.rfc-editor.org/rfc/rfc7858.html)
 - [Suricata — EVE 설정·Community ID](https://docs.suricata.io/en/latest/output/eve/eve-json-output.html)
+
+## DNS·웹·메일의 대체 증거 연결하기
+
+암호화 DNS에는 [리졸버·호스트 자료](dns-investigation.html), HTTPS에는 [프록시·WAF·서버·실행 증거](http-investigation.html), 웹메일에는 [원본 메일과 신원·메일 감사](email-investigation.html)를 연결합니다. [원격 접속 가이드](remote-protocol-investigation.html)는 SMB over QUIC와 터널의 가시성 차이를 설명합니다.

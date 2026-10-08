@@ -55,3 +55,7 @@ TLS 1.3에서는 수동 센서가 인증서를 항상 읽을 수 없으며, ECH 
 - [Zeek — dns.log](https://docs.zeek.org/en/current/logs/dns.html)
 - [Zeek — http.log](https://docs.zeek.org/en/current/logs/http.html)
 - [Zeek — Common Logs](https://docs.zeek.org/en/current/reference/logs/index.html)
+
+## 프로토콜별 조사 이어가기
+
+[DNS 질의·응답 조사](dns-investigation.html)와 [DNS 악용 헌팅](dns-abuse-hunting.html), [웹 요청·리다이렉트](http-investigation.html), [메일 헤더와 SaaS 감사](email-investigation.html)를 연결합니다. 로그 재생성·캡처 조건은 [수집과 증거](network-capture-evidence.html), 가상 스키마 실습은 [네트워크 통합 실습](network-capstone.html)에서 다룹니다.

@@ -46,3 +46,7 @@ Arkime은 메타데이터만 보존하거나 선택적으로 패킷을 저장할
 - [Zeek — Common Logs](https://docs.zeek.org/en/current/reference/logs/index.html)
 - [Suricata — EVE JSON Format](https://docs.suricata.io/en/latest/output/eve/eve-json-format.html)
 - [Arkime 공식 사이트](https://arkime.com/)
+
+## 단계별 네트워크 학습 경로
+
+[관측 위치](network-architecture-visibility.html) → [자료 선택·PCAP 보존](network-capture-evidence.html) → [DNS](dns-investigation.html) → [HTTP/HTTPS](http-investigation.html) → [메일](email-investigation.html) 순서로 도구의 결과를 조사 질문에 연결합니다. [통합 실습](network-capstone.html)은 실제 도구가 없어도 시작할 수 있습니다.

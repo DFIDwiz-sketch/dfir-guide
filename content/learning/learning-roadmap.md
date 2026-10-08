@@ -141,3 +141,7 @@ GOAD-Light는 AD 학습에 유용하지만 SaaS 토큰, CI/CD와 클라우드 �
 4. [SOAR·AI 보조 분석](soar-ai-operations.html)에서 실패·중복·근거 검증을 설계하고 [통합 실습](blue-team-capstone.html)으로 인계문까지 완성합니다.
 
 **완료 기준:** 다른 분석가가 같은 자료에서 판단을 재확인하고 다음 조치·수집·개선 작업을 설명할 수 있습니다.
+
+## 네트워크 집중 과정 — 2일차 보강
+
+[네트워크 블루팀 경로](network-blue-team-path.html) → [관측 지도](network-architecture-visibility.html) → [수집과 증거](network-capture-evidence.html) → [DNS 조사](dns-investigation.html)·[DNS 헌팅](dns-abuse-hunting.html) → [웹 조사](http-investigation.html) → [메일 조사](email-investigation.html)·[원격 접속](remote-protocol-investigation.html) → [통합 실습](network-capstone.html) 순서로 진행합니다. 결과물은 흐름 지도, 원본 보존 기록, 근거·가설 표와 인계문입니다.

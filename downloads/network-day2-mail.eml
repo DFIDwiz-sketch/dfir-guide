@@ -1,0 +1,23 @@
+Received: from outbound.vendor.example (outbound.vendor.example [198.51.100.25])
+ by lab-gateway.example with ESMTP id MAIL05; Thu, 8 Oct 2026 08:01:00 +0000
+Authentication-Results: lab-gateway.example;
+ spf=pass smtp.mailfrom=vendor.example;
+ dkim=pass header.d=vendor.example;
+ dmarc=pass header.from=vendor.example
+Received: from claimed-origin.example (claimed-origin.example [203.0.113.99])
+ by outbound.vendor.example; Thu, 8 Oct 2026 08:00:50 +0000
+Authentication-Results: untrusted-external.example; dmarc=pass header.from=vendor.example
+Return-Path: <billing@vendor.example>
+From: "Vendor Billing" <billing@vendor.example>
+To: <analyst@company.example>
+Reply-To: <billing@vendor.example>
+Date: Thu, 8 Oct 2026 08:00:45 +0000
+Message-ID: <lab-05@vendor.example>
+Subject: [SYNTHETIC LAB] Review request
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Synthetic non-delivery training specimen.
+No attachment, active link, or cryptographic DKIM signature is included.
+Authentication-Results fields are fabricated lab evidence, not verifiable signatures.
+The analyst must establish the trust boundary and request mailbox/sign-in audit.

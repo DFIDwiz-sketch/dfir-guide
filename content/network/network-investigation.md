@@ -2,7 +2,7 @@
 title: "네트워크 포렌식 조사 흐름"
 description: "통신 메타데이터에서 패킷·호스트 증거로 이어지는 조사 순서와 가시성의 한계."
 category: "network"
-updated: "2026-10-07"
+updated: "2026-10-08"
 tags: ["PCAP", "네트워크", "조사 흐름"]
 order: "10"
 level: "입문"
@@ -90,3 +90,7 @@ TCP 연결 하나를 선택했다면 `Follow TCP Stream`과 관련 패킷을 함
 - [Zeek — Common Logs](https://docs.zeek.org/en/current/reference/logs/index.html)
 - [Suricata — EVE JSON Format](https://docs.suricata.io/en/latest/output/eve/eve-json-format.html)
 - [Arkime 공식 사이트](https://arkime.com/)
+
+## DNS·웹·메일로 조사 확장하기
+
+[네트워크 블루팀 학습 경로](network-blue-team-path.html)에서 관측 지도와 수집 형식을 먼저 확인합니다. 이후 [DNS 조사](dns-investigation.html) → [웹 조사](http-investigation.html) → [메일 조사](email-investigation.html) → [원격 접속 조사](remote-protocol-investigation.html)를 진행하고 [가상 기록 20개](network-capstone.html)로 근거와 한계를 정리합니다.
