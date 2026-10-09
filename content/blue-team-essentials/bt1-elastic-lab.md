@@ -1,6 +1,6 @@
 ---
 title: "실습 1.3: Elastic Stack으로 SIEM 학습"
-description: "가상 기록 6개를 읽고 Elastic의 데이터 뷰·시간·필드·KQL 검색을 익힙니다."
+description: "가상 기록 16건을 입력·검색하고 기대 ID·건수·수집 지연과 사건 타임라인을 검증합니다."
 category: "blue-team-essentials"
 updated: "2026-10-09"
 tags: ["1일차", "자체 실습", "블루팀 필수지식"]
