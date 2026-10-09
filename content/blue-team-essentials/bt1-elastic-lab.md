@@ -13,78 +13,75 @@ textbook_page: "171"
 lesson_type: "자체 실습"
 ---
 
-## 실습 목표와 자료
+## 실습 목표와 데이터
 
-[가상 NDJSON 6개](downloads/blue-team-essentials-events.ndjson)를 사용합니다. 자료는 자체 정규화 예제이며 Elastic Security의 제품 이벤트 스키마나 원본 교재 실습 자료가 아닙니다.
+이 실습은 데이터를 입력하고 필드를 확인한 뒤, 검색 결과를 근거·타임라인·인계로 바꾸는 활동입니다. [공통 사례 NDJSON 16건](downloads/blue-team-day1-case.ndjson)과 [학습 워크북](downloads/blue-team-day1-workbook.md)을 사용합니다. 교재의 SIEM with Elastic Stack 목표에 맞춘 별도 실습이며 원본 Lab Workbook의 재현은 아닙니다.
 
-Elasticsearch는 자료의 저장·검색, Kibana는 검색·분석 화면, 수집 도구·연동은 자료 유입을 지원합니다. 모든 기능을 설치하지 않아도 파일 읽기와 검색 조건 설계부터 할 수 있습니다.
+데이터는 `dataset: bt1-case-v2`이며 날짜는 2026-10-08 UTC입니다. `record_type`은 이벤트·경보·맥락·조치·사건 메모·수집 상태를 구별합니다. 실제 제품의 ECS 표준 자료가 아니라 기능과 판단을 연습하는 교육용 스키마입니다. 제품 없이 Python으로 기대 결과를 확인할 수도 있습니다.
 
-## 1단계 — 파일에서 필드 확인하기
+## 1단계 · 입력과 필드 확인
 
-한 줄이 한 JSON 문서입니다. record_id, @timestamp, dataset, record_type과 각 행의 필드를 확인합니다. 네트워크·로그인 이벤트 4개, 경보 1개, 사건 메모 1개가 있습니다.
+승인된 Elastic 교육 환경에서 공식 파일 업로드 기능을 사용합니다. 현재 문서는 Integrations에서 Upload a file을 찾아 Data Visualizer를 여는 흐름을 설명하며, 버전·배포에 따라 다른 업로드 화면도 제공합니다. 분석 결과에서 `@timestamp`가 날짜, ID·종류·계정·세션이 검색 가능한 값으로 해석되는지 확인한 뒤 교육용 인덱스 `bt1-case-v2`에 가져옵니다.
 
-B003의 새 장비 로그인은 이벤트, B004는 그 조건으로 만든 경보입니다. 같은 행동을 두 번 발생한 것으로 계산하지 않습니다.
+업로드에는 데이터 뷰·Discover·인덱스·파이프라인 관련 권한이 필요할 수 있습니다. 권한 오류는 해당 환경 운영자에게 요청하고 무조건 관리자 권한으로 바꾸지 않습니다. 파일 업로드는 초기 자료 탐색용이며 반복 운영 수집 파이프라인을 대신하는 방식이 아닙니다.
 
-## 2단계 — 선택: 시험 Elastic에 수집하기
+## 2단계 · Discover와 날짜 범위 맞추기
 
-이미 사용할 수 있는 시험 환경에서만 수행합니다. 현재 공식 문서의 파일 업로드 기능이 있으면 NDJSON 파일을 선택합니다. 데이터·인덱스 생성 권한과 지원 형식을 확인합니다. 이 활동은 제품 설치나 실제 운영 인덱스 변경을 요구하지 않습니다.
+해당 인덱스의 데이터 뷰를 선택하고 시간 필드를 `@timestamp`로 지정합니다. 검색 범위는 **2026-10-08 00:00:00~2026-10-09 00:00:00 UTC**로 맞춥니다. 브라우저의 현지 시간 표시를 쓰면 같은 UTC 범위에 해당하는 시각으로 설정합니다. 기본 최근 15분은 학습 데이터의 고정 날짜와 맞지 않을 수 있습니다.
 
-시험 인덱스를 bt1-learning으로 정하고 @timestamp를 날짜로 해석했는지 확인합니다. dataset·record_id·record_type·protocol 같은 필드의 text/keyword mapping을 살펴봅니다. 자료를 한 번만 수집했는지 확인합니다.
+표에는 `id`, `record_type`, `event_type`, `account`, `session_id`, `source_ip`, `related_id`, `received_at`을 추가합니다. 없는 필드는 해당 레코드에 적용되지 않거나 기록되지 않았을 수 있습니다. 원문 한 건을 펼쳐 필드 이름·값·시각을 대조합니다.
 
-## 3단계 — 데이터 뷰와 시간을 고르기
+## 3단계 · 필터와 기대 ID 대조
 
-Discover에서 해당 인덱스의 Data view를 선택합니다. 시간 필드는 @timestamp이며 자료의 UTC 기간은 2026-10-08 08:00–08:05입니다. 화면의 시간대 표시를 확인하고 이 기간을 포함하는 절대 범위로 설정합니다.
+각 검색은 별도로 실행합니다. 값·필드·날짜 범위가 정확하고 원본을 한 번만 입력했을 때 다음 결과를 기대합니다.
 
-처음에는 조건 없이 6개 문서를 확인하고 record_id와 원문을 읽습니다. index·Data view·시간·권한을 확인하기 전 경보 조건부터 넣지 않습니다.
+| KQL 필터 | 기대 결과 | 학습 질문 |
+| --- | --- | --- |
+| `dataset: "bt1-case-v2"` | D01~D16, 16건 | 전체 입력과 중복 여부 |
+| `dataset: "bt1-case-v2" AND record_type: "alert"` | D06·D08, 2건 | 경보와 원문 관계 |
+| `dataset: "bt1-case-v2" AND event_type: "authentication"` | D01·D03·D04·D05, 4건 | 실패·성공·정상 세션 |
+| `dataset: "bt1-case-v2" AND session_id: "S002"` | D05·D07·D11·D13·D14, 5건 | 관련 자료의 종류 차이 |
+| `dataset: "bt1-case-v2" AND event_type: "mail_rule_created"` | D07, 1건 | 실제 전달 자료와의 차이 |
+| `dataset: "bt1-case-v2" AND record_type: "collection_health"` | D16, 1건 | 미관측과 안전함의 차이 |
 
-## 4단계 — KQL로 하나씩 좁히기
+세션 검색에는 경보 D06·D08이 직접 들어 있지 않습니다. 이 경보들은 `related_id`로 원문을 참조합니다. 세션 필드 검색만으로 모든 관련 자료를 찾았다고 결론 내리지 않는 이유입니다.
 
-아래는 Kibana Query Language 예이며 Kusto Query Language나 Splunk SPL과 다릅니다. 필드가 keyword 등 정확한 값 검색에 맞는 mapping인지 확인합니다.
+## 4단계 · 타임라인과 수집 지연
 
-~~~text
-dataset: "bt1-essentials-v1"
-~~~
+발생 시각으로 오름차순 정렬합니다. D05의 로그인 뒤 D07의 설정 변경이 같은 세션에서 이어지는지 확인합니다. D07의 `received_at`과 발생 시각을 비교하면 8분 지연이 있습니다. 사건 조사에서는 발생 순서와 분석 시점에 확보한 자료의 차이를 함께 남깁니다.
 
-기대 결과는 6개입니다. 다음은 이벤트만 고르는 조건입니다.
+D09·D10은 내부 PC의 정상 활동으로 분리합니다. 같은 계정이나 가까운 시각만으로 S002와 연결하지 않습니다. D13·D14는 요청과 서비스 감사이며, D15·D16에 남은 질문과 공백이 있습니다. 마지막 인계는 확인·미확인·다음 작업을 포함해야 합니다.
 
-~~~text
-dataset: "bt1-essentials-v1" AND record_type: "event"
-~~~
+## 5단계 · 제품 없이 결과 검증
 
-기대 결과는 B001·B002·B003·B005의 4개입니다.
-
-~~~text
-dataset: "bt1-essentials-v1" AND record_type: "event" AND protocol: "http"
-~~~
-
-기대 결과는 B002·B005의 2개입니다. status 200과 302의 의미를 비교합니다. KQL은 필터링 언어이며 집계·정렬은 화면 기능 또는 해당 목적의 다른 쿼리 언어를 사용합니다.
-
-## 5단계 — 도구 없이 같은 조건 확인하기
+Python 3에서 내려받은 파일과 같은 폴더에서 실행합니다. 이 코드는 로컬 파일만 읽습니다.
 
 ~~~python
 import json
-from pathlib import Path
+from collections import Counter
+from datetime import datetime
 
-rows = [json.loads(line) for line in
-        Path("blue-team-essentials-events.ndjson").read_text(encoding="utf-8").splitlines()]
-events = [r for r in rows if r["record_type"] == "event"]
-http = [r["record_id"] for r in events if r.get("protocol") == "http"]
-print(len(rows), len(events), http)
+with open("blue-team-day1-case.ndjson", encoding="utf-8") as f:
+    records = [json.loads(line) for line in f if line.strip()]
+print("total", len(records))
+print("types", dict(Counter(r["record_type"] for r in records)))
+for key, value in [("record_type", "alert"),
+                   ("event_type", "authentication"),
+                   ("session_id", "S002")]:
+    print(key, [r["id"] for r in records if r.get(key) == value])
+r = next(r for r in records if r["id"] == "D07")
+parse = lambda s: datetime.fromisoformat(s.replace("Z", "+00:00"))
+print("D07 lag seconds",
+      (parse(r["received_at"]) - parse(r["@timestamp"])).total_seconds())
 ~~~
 
-확인할 출력은 6 4 ['B002', 'B005']입니다. 이 출력은 파일 조건 검증이며 Elastic 서버에서 검색을 실행한 결과가 아닙니다.
+종류별 수는 event 7, alert 2, context 3, action 1, action_result 1, case_note 1, collection_health 1입니다. D07 지연은 480초입니다. 결과가 다르면 입력 파일·중복·필드·필터를 확인합니다. 분할 학습에서 매핑·검색·시간 문제를 자세히 다룹니다.
 
-## 6단계 — 결과를 해석하고 막힌 곳 찾기
+## 완료 결과물
 
-0개면 Data view → 시간대·범위 → 인덱스 권한 → 수집 완료 → 필드 mapping → KQL 조건 순서로 확인합니다. 12개면 같은 파일 중복 유입인지 record_id로 비교합니다.
-
-**완료 기준:** 원문 6개, 이벤트 4개, HTTP 2개와 이벤트·경보·사건 메모의 차이를 설명합니다. 성공 로그인이나 HTTP 200을 침해 성공으로 작성하지 않습니다.
-
-## 최신 보강과 실무 연결
-
-2022년 Kibana 화면과 현재 UI·검색 언어는 다를 수 있습니다. KQL·Lucene·ES|QL의 역할을 구분합니다. 현재 키트의 Splunk 적용은 [Splunk 기본 검색](splunk-basics.html)과 연결합니다.
+입력 확인 16건, 필터별 ID, D07 지연, 타임라인, 사건 인계 문장을 워크북에 남깁니다. 단순히 화면에 점이 보이는 것보다 **왜 해당 ID를 연결하고 무엇은 연결하지 않았는지** 설명할 수 있어야 합니다.
 
 ## 공개 참고자료
 
-- [Elastic — 파일 업로드](https://www.elastic.co/docs/manage-data/ingest/upload-data-files)
+- [Elastic — 파일 업로드·권한](https://www.elastic.co/docs/manage-data/ingest/upload-data-files)
 - [Elastic — KQL](https://www.elastic.co/docs/explore-analyze/query-filter/languages/kql)

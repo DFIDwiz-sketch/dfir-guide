@@ -102,8 +102,19 @@ npm run preview
 
 ## 블루팀 필수지식
 
-블루팀 메뉴 아래 `blue-team-essentials` 하위 섹션을 제공합니다. `category-blue-team-essentials.html`에서 1일차 14개·2일차 12개 글을 교재 장 제목과 순서로 읽습니다. 설명·예제·실습은 독립적으로 작성했으며 교재 본문·그림·Lab Workbook·VM은 게시하지 않습니다.
+블루팀 메뉴 아래 `blue-team-essentials` 하위 섹션을 제공합니다. `category-blue-team-essentials.html`에서 1일차 14개 장과 15개 상세 글·2일차 12개 장을 교재 장 제목과 순서로 읽습니다. 설명·예제·실습은 독립적으로 작성했으며 교재 본문·그림·Lab Workbook·VM은 게시하지 않습니다.
 
 각 글의 `course_day`, `course_order`, `chapter_title`, `textbook_page`, `lesson_type` 메타데이터로 일차·순서·영문 제목·인쇄 쪽수·유형을 표시합니다. 이전·다음 학습과 블루팀 부모 메뉴를 연결합니다. 검색에는 하위 분류와 영문 장 제목이 포함됩니다.
 
 추가 가상 자료는 `downloads/blue-team-essentials-events.ndjson` 6개와 `downloads/blue-team-essentials-http.txt` 대화 예입니다. 제품 원본 스키마·PCAP이 아니며 인터넷 연결이나 실제 메일 발송을 포함하지 않습니다.
+
+
+## 1일차 상세 보강 · 2026-10-09
+
+기존 14개 장을 다시 작성하고 SOC 3편, 관측 2편, 경보 2편, 사건 관리 2편, 인텔리전스 2편, SIEM 2편, 역사 사례 1편, Elastic 문제 해결 1편을 추가했습니다. 총 29개 1일차 글입니다. 원 교재의 장 순서는 유지하고 긴 주제를 장별 하위 목록으로 나눕니다.
+
+분할 글에는 부모 장과 같은 `course_day`, `course_order`, `chapter_title`을 쓰고 `chapter_parent`에 부모 slug, `part_order`에 1부터 연속 번호를 넣습니다. `textbook_range`는 관련 인쇄 쪽수 범위를 표시합니다. 장 목록은 부모만 세며 읽기 순서는 장 개요 → 해당 분할 글 → 다음 장입니다. 빌드는 부모 존재·일차·장 순서·영문 제목 일치와 상세 순서 중복·누락을 검증합니다.
+
+`downloads/blue-team-day1-case.ndjson`은 신규 교육용 스키마의 가상 자료 16건입니다. 보안 이벤트 7, 경보 2, 맥락 3, 조치 요청·결과·사건 메모·수집 상태 각 1건입니다. `blue-team-day1-workbook.md`에는 작성 활동과 기대 ID·수·해설을 담았습니다. 실제 제품 출력이나 실제 위협 지표가 아니며 외부 동기화·차단에 사용하지 않습니다. 기존 6건 자료는 다른 글과의 호환을 위해 유지했습니다.
+
+실습의 제품 화면·권한·라이선스는 현재 공식 문서에 연결하며, 실제 TheHive·MISP·Elastic 서버에서의 통합 실행까지 검증한 자료는 아닙니다. 파일 스키마·기대 ID·건수·지연 계산과 정적 사이트의 링크·모바일 표시·검색·읽기 순서를 검증합니다.
