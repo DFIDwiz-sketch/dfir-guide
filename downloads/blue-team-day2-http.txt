@@ -1,0 +1,34 @@
+Synthetic HTTP/1.1 training transcript. Not a packet capture.
+T1 request (shown after authorized TLS termination):
+GET /invoices/2026 HTTP/1.1
+Host: portal.study.example
+User-Agent: TrainingBrowser/1.0
+
+T1 response:
+HTTP/1.1 302 Found
+Location: https://files.notice.example/update.txt
+Content-Length: 0
+
+T2 request:
+GET /update.txt HTTP/1.1
+Host: files.notice.example
+
+T2 response:
+HTTP/1.1 200 OK
+Content-Type: text/plain
+Content-Length: 36
+
+This is an inert training document.
+
+T3 request (headers only; 4096-byte body deliberately omitted):
+POST /api/submit HTTP/1.1
+Host: files.notice.example
+Content-Type: application/octet-stream
+Content-Length: 4096
+
+T3 response:
+HTTP/1.1 202 Accepted
+Content-Type: application/json
+Content-Length: 40
+
+{"status":"queued","ticket":"TRAIN-01"}

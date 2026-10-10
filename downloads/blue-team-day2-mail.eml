@@ -1,0 +1,37 @@
+X-Training-Notice: Synthetic headers; authentication verdicts are supplied for analysis.
+ No DKIM signature or cryptographic verification is supplied in this exercise.
+Received: from gateway.study.example (gateway.study.example [10.20.30.10])
+ by mailbox.study.example with ESMTP id M100;
+ Sat, 10 Oct 2026 08:55:01 +0000
+Authentication-Results: mx.study.example;
+ spf=pass smtp.mailfrom=relay.notice.example;
+ dkim=pass header.d=relay.notice.example;
+ dmarc=fail header.from=study.example
+Received: from relay.notice.example (relay.notice.example [192.0.2.44])
+ by gateway.study.example with ESMTPS id Q100;
+ Sat, 10 Oct 2026 08:55:00 +0000
+Received: from ceo-laptop.study.example by mail.study.example;
+ Sat, 10 Oct 2026 08:54:00 +0000
+Authentication-Results: mail.study.example; dmarc=pass header.from=study.example
+Return-Path: <bounce@relay.notice.example>
+From: Finance Desk <billing@study.example>
+To: learner@study.example
+Reply-To: help@notice.example
+Date: Sat, 10 Oct 2026 08:54:00 +0000
+Message-ID: <training-20261010@relay.notice.example>
+Subject: Training invoice review
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="training-bt2-boundary"
+
+--training-bt2-boundary
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+Inert training message. Review the invoice at https://portal.study.example/invoices/2026
+--training-bt2-boundary
+Content-Type: text/plain; name="training-note.txt"
+Content-Disposition: attachment; filename="training-note.txt"
+Content-Transfer-Encoding: base64
+
+VGhpcyBpcyBhbiBpbmVydCB0cmFpbmluZyBkb2N1bWVudC4K
+--training-bt2-boundary--

@@ -1,8 +1,8 @@
 ---
 title: "실습 2.1: DNS 탐색"
-description: "가상 DNS 6개에서 질의자·리졸버·이름·타입·응답과 후속 연결을 정리합니다."
+description: "자체 JSONL로 DNS 경로·캐시·별칭·비인가 리졸버·TXT 후보를 찾고 제한과 후속 조사를 작성합니다."
 category: "blue-team-essentials"
-updated: "2026-10-09"
+updated: "2026-10-10"
 tags: ["2일차", "자체 실습", "블루팀 필수지식"]
 order: "305"
 level: "입문 · 교재 중심"
@@ -13,53 +13,56 @@ textbook_page: "86"
 lesson_type: "자체 실습"
 ---
 
-## 실습 목표와 자료
+## 실습 목표와 자료 범위
 
-[가상 사건 기록 20개](downloads/network-day2-events.jsonl) 중 DNS 6개를 사용합니다. 실습은 자체 기록을 읽는 활동이며 원본 PCAP이나 원본 교재 Lab Workbook의 수행 결과를 제공하지 않습니다.
+교재의 EXERCISE 2.1 Exploring DNS에 대응하는 자체 실습입니다. 원본 VM·Lab Workbook을 재현하지 않습니다. DNS 역할, 레코드, 캐시와 정책 후보를 24건의 가상 자료에서 해석하고 후속 조사까지 작성합니다. 실제 의심 도메인을 조회하거나 터널을 구축하지 않습니다.
 
-준비물은 편집기와 메모, 선택적으로 Python 또는 시험 Splunk입니다. .example 이름을 실제 인터넷에서 조회해 가상 답을 재현하려 하지 않습니다.
+- [사례 JSONL](downloads/blue-team-day2-case.jsonl)
+- [2일차 조사 워크북](downloads/blue-team-day2-workbook.md)
 
-## 1단계 — DNS 행 찾기
+모든 .example 이름과 문서용 외부 IP는 교육용입니다. source·cache·resolver_policy 등은 설명을 위한 정규화 필드입니다. 실제 제품 원시 로그와 동일한 스키마가 아닙니다.
 
-source_type이 dns인 N001·N006·N011·N012·N013·N015를 찾습니다. event_ts, src_ip, resolver_ip, query, qtype, rcode와 answers를 표로 옮깁니다. 이 스키마는 Zeek 원문이 아니라 학습용입니다.
+## 준비와 필드 확인
 
-## 2단계 — 요청한 자산과 리졸버 구분하기
+한 줄에 JSON 한 건인 UTF-8 파일을 엽니다. id·timestamp·record_type·source가 공통 필드이고 DNS 행에는 query·qtype·rcode·answers 등이 있습니다. 파일을 Splunk에 넣는다면 교육용 인덱스를 사용하고 JSON 필드를 추출하며 날짜 범위를 2026-10-10 UTC로 맞춥니다. timestamp가 올바른 이벤트 시각으로 처리되는지도 확인합니다.
 
-N006의 클라이언트는 192.0.2.10, 리졸버는 192.0.2.53입니다. 응답은 198.51.100.40입니다. 리졸버 주소를 웹 목적지로 옮겨 적지 않습니다.
+## 활동 1 · 질의자와 조회 경로
 
-N001과 N015는 .11의 질의이고 나머지는 .10의 질의입니다. 주소가 같아도 실제 과거 자산 식별에는 유효 기간과 자산 자료가 필요합니다.
+N03·N04·N09를 나란히 놓고 출발지·관측 출처·시각·cache를 비교합니다. N03의 원래 단말은 10.20.10.24, N04의 출발지는 리졸버 10.20.10.53입니다. N04만으로 단말을 정할 수 없습니다. N09는 캐시 hit이므로 외부 질의가 함께 나타나지 않을 수 있습니다.
 
-## 3단계 — 후속 웹 연결 비교하기
+## 활동 2 · 별칭과 주소
 
-N001 → N002, N006 → N007의 답·목적지·이름·시각을 비교합니다. DNS uid와 웹 uid가 다름을 확인합니다. 대응 가능한 후보로 기록하며 실행이나 사용자 의도를 확정하지 않습니다.
+N06의 answers와 answer_types를 읽어 files.notice.example→edge.notice.example→203.0.113.20의 관계를 작성합니다. HTTP 이동은 N05의 302·Location에서 찾습니다. 두 관계를 분리해 표로 그린 뒤, DNS 조회만으로 파일 실행을 확인할 수 없는 이유를 적습니다.
 
-## 4단계 — TXT와 긴 이름 읽기
+## 활동 3 · 정책 후보와 터널링 후보
 
-N011–N013은 TXT 3개이고 N015는 긴 A 질의입니다. TXT, 긴 이름과 30초 간격만으로 악성·유출을 판단하지 않습니다. 정상 프로그램, 추가 기간, 호스트 프로세스와 승인 정책을 요청합니다.
+~~~spl
+index=YOUR_LAB_INDEX dataset="bt2-case-v2" record_type="dns"
+| table id timestamp source src_ip dest_ip transport query qtype rcode cache
+| sort timestamp
+~~~
 
-## 5단계 — 선택: Python 검증
+DNS는 N03·N04·N06·N09~N14, 총 9건입니다. 단말→미승인 리졸버는 N10이며 TCP입니다. collect.notice.example 아래 고유 질의는 N10~N13 네 건입니다. 같은 경로로 본 N11~N13만 따로 비교하고 N14의 정상 TXT도 대조합니다. 짧은 표본에서 장기 터널링·유출을 확정하지 않습니다.
+
+## SIEM 없이 재현하기
+
+다운로드 파일과 같은 폴더에서 실행합니다. 표준 Python만 사용하며 외부 연결은 발생하지 않습니다.
 
 ~~~python
 import json
-from collections import Counter
 from pathlib import Path
-
-rows = [json.loads(s) for s in
-        Path("network-day2-events.jsonl").read_text(encoding="utf-8").splitlines()]
-dns = [r for r in rows if r["source_type"] == "dns"]
-print(len(dns), dict(Counter(r["qtype"] for r in dns)))
-print([r["event_id"] for r in dns if r["src_ip"] == "192.0.2.10"])
+rows = [json.loads(x) for x in Path("blue-team-day2-case.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+dns = [r for r in rows if r["record_type"] == "dns"]
+print("DNS:", len(dns))
+print("미승인:", [r["id"] for r in dns if r.get("resolver_policy") == "not_approved"])
+collect = [r for r in dns if r["query"].endswith(".collect.notice.example")]
+print("고유 이름:", len({r["query"] for r in collect}))
 ~~~
 
-기대 출력은 DNS 6개, A 3개·TXT 3개, .10의 ID N006·N011·N012·N013입니다. 파일 경로·JSON 형식·필드와 실제 값을 확인합니다.
+기대 출력은 DNS: 9, 미승인: ['N10'], 고유 이름: 4입니다. 건수가 다르면 파일 버전·필터·중복 입력을 확인합니다. 이 코드는 후보 계산이며 악성 판정기가 아닙니다.
 
-**완료 기준:** 질의 표 6행, 이름·주소 대응 후보 2개, 정상 설명과 추가 수집 목록이 있습니다.
+## 결과 작성
 
-## 최신 보강과 실무 연결
+“09:03에 WS-024로 연결되는 주소에서 미승인 TCP/53과 세 개의 추가 TXT 후보를 관측했다. DNS 설정·원인 앱과 실제 전달 데이터는 미확인이다. 임대 N01과 수집 제한 N22를 고려했으며 필요 시 Hunt N23 결과를 확인한다.” 이 정도로 관측과 제한을 함께 기록합니다.
 
-실제 DoH·DoT·DoQ나 캐시가 있으면 dns.log에 같은 내용이 없을 수 있습니다. 실제 검색 절차는 [DNS 조사](dns-investigation.html), 범위 확장은 [통합 실습](network-capstone.html)으로 연결합니다.
-
-## 공개 참고자료
-
-- [RFC 1035 — DNS](https://www.rfc-editor.org/rfc/rfc1035)
-- [Zeek — 로그 안내](https://docs.zeek.org/en/current/reference/logs/index.html)
+워크북에 출처·후보 ID·정상 가능성·다음 수집 항목을 채웁니다. 검색식 결과만 제출하지 않고 왜 해당 자료로 그 결론까지 말할 수 있는지 설명합니다.

@@ -1,8 +1,8 @@
 ---
 title: "SMTP와 이메일 이해"
-description: "메일 제출·전달·수신, SMTP 명령·봉투/헤더·Received와 SPF·DKIM·DMARC를 이해합니다."
+description: "SMTP 전달·Envelope/Header·Received 신뢰 경계와 SPF·DKIM·현재 DMARC 표준을 연결합니다."
 category: "blue-team-essentials"
-updated: "2026-10-09"
+updated: "2026-10-10"
 tags: ["2일차", "개념", "블루팀 필수지식"]
 order: "309"
 level: "입문 · 교재 중심"
@@ -13,66 +13,48 @@ textbook_page: "139"
 lesson_type: "개념"
 ---
 
-## 이메일의 세 구간
+## 메일 전달과 메일 내용은 서로 다른 층이다
 
-| 구간 | 역할 | 일반적 자료 |
+메일은 작성·제출, 서버 간 전달, 사서함 수신·열람의 과정으로 나눌 수 있습니다. 제출에는 SMTP 또는 서비스 API, 서버 간 전달에는 SMTP, 열람에는 IMAP·POP·웹·앱 API 등이 사용될 수 있습니다. 사용자가 웹메일을 쓴다고 해서 단말이 상대 조직의 SMTP 서버에 직접 연결하는 것은 아닙니다.
+
+교재 순서에 따라 전달 구조와 SMTP 대화, 메시지·추적 헤더, 위조 문제와 SPF·DKIM·DMARC를 학습합니다. 두 상세 글에서 헤더의 출처와 인증의 범위를 분리해 설명합니다.
+
+## Envelope와 Header 주소
+
+| 구분 | 예 | 의미 |
 | --- | --- | --- |
-| Submission · 제출 | 사용자가 보낼 메일을 서비스에 제출 | 클라이언트·제출 서버·웹메일 감사 |
-| Relay · 전달 | 서버 사이에서 목적지로 전송 | MTA·게이트웨이·메일 추적 |
-| Delivery / Access · 배달·접근 | 사서함에 배달하고 사용자가 읽음 | 배달·메일 접근·서비스 감사 |
+| SMTP MAIL FROM | bounce@relay.notice.example | 전달 과정의 반환·SPF 관련 주소 |
+| SMTP RCPT TO | learner@study.example | 실제 전달 대상, 헤더 To와 다를 수 있음 |
+| Header From | Finance Desk <billing@study.example> | 사용자에게 표시되는 작성자 주소 |
+| Header Reply-To | help@notice.example | 답장 대상으로 제시된 주소 |
+| Return-Path | <bounce@relay.notice.example> | 전달된 메시지의 reverse-path 관련 정보 |
 
-MUA는 사용자의 메일 클라이언트, MTA는 전달 서버, MDA는 사서함 배달 기능을 설명하는 용어입니다. 실제 제품은 여러 역할을 결합할 수 있습니다. 수신 조직의 MX 조회는 메일 전달 목적지를 찾는 데 사용됩니다.
+여러 주소가 다른 것은 정상 대량 발송·반송 처리에서도 나타납니다. 차이 자체보다 인증 도메인·정렬·업무 맥락을 확인합니다. 표시 이름 Finance Desk는 인증된 조직 신원을 보장하지 않습니다.
 
-SMTP 서버 간 전송은 보통 25, 제출은 587 또는 암시적 TLS의 465가 사용됩니다. 메일 읽기는 IMAP·POP3·웹메일 등 다른 방식일 수 있습니다. 포트와 암호화·접속 정책은 실제 환경을 확인합니다.
+## Received를 위에서 아래로 검증하기
 
-## SMTP 대화의 의미
+메일 서버는 통상 자신이 받은 정보를 위쪽에 추가하므로 아래에서 위로 읽으면 주장된 시간 경로를 볼 수 있습니다. 그러나 신뢰 여부를 검토할 때는 자신이 관리하는 가장 최근 수신 서버부터 신뢰 경계를 따라 확인합니다. 외부가 미리 넣은 아래쪽 Received와 Authentication-Results는 위조될 수 있습니다.
 
-EHLO로 서버 기능과 인사를 교환하고 MAIL FROM으로 봉투 발신, RCPT TO로 봉투 수신자를 지정합니다. DATA 구간에는 메일 헤더와 본문이 들어갑니다. 각 서버 응답 코드는 다음 동작의 허용·오류 상태를 설명합니다.
+수신 경계 서버가 관측한 연결 peer IP는 그 서버에 접속한 상대를 알려줍니다. 그 IP가 최초 작성자나 공격자의 장치라는 뜻은 아닙니다. EHLO와 PTR 이름도 서로 의미가 다릅니다. 헤더를 추가한 서버와 대응 message trace·queue ID를 확인합니다.
 
-가상 예에서 MAIL FROM은 bounce@sender.example, 헤더 From은 notice@brand.example일 수 있습니다. 이 두 도메인이 다르다는 사실만으로 문법 오류는 아니며 발신 인증·정렬·업무 맥락을 따로 평가합니다.
+## 인증을 역할별로 구분하기
 
-250 등 수락 응답은 그 단계의 처리를 설명합니다. 최종 사용자 열람·안전한 배달·후속 행동 성공을 모두 증명하지 않습니다. STARTTLS 이후에는 수동 센서에서 헤더·본문이 가려질 수 있습니다.
+SPF는 해당 전달 시점의 IP가 검증 대상 도메인 정책에 맞는지를 확인합니다. DKIM은 서명 도메인과 서명 대상의 검증에 관련됩니다. DMARC는 Header From의 Author Domain과 정렬된 SPF 또는 DKIM의 통과를 연결합니다. 둘 모두 통과해야만 DMARC가 통과하는 것은 아닙니다.
 
-## 봉투와 헤더 구분하기
+N02는 SPF·DKIM 모두 relay.notice.example로 pass지만 Header From은 study.example입니다. 서로 정렬되지 않아 DMARC fail인 교육용 결과입니다. 인증 결과는 mx.study.example이 제공한 가상 값이며 실습 EML에 실제 DKIM 서명 검증 자료는 없습니다.
 
-| 항목 | 설명 |
-| --- | --- |
-| MAIL FROM / Return-Path | 봉투 발신·반송 경로와 관련 |
-| RCPT TO | 실제 SMTP 전달 수신 대상 |
-| From / To | 메시지에 표시되는 작성자·수신자 |
-| Reply-To | 회신 대상으로 지정한 값 |
-| Received | 각 전달 서버가 추가한 추적 정보 |
-| Message-ID | 메시지 식별에 쓰는 값, 서비스 ID와 함께 확인 |
+## 2022년 설명의 최신 보강
 
-숨은 수신자나 전달 때문에 헤더 To와 실제 RCPT TO가 다를 수 있습니다. Message-ID 자체도 원본 서비스의 고유 추적 ID와 구분합니다.
+2026년 5월 RFC 9989가 RFC 7489·9091을 대체했습니다. 정책·조직 도메인 탐색과 일부 태그가 바뀌고 보고는 RFC 9990·9991로 나뉘었습니다. 기존 운영 시스템은 구형 표준을 구현할 수 있으므로 버전·업체 지원을 확인합니다. Authentication-Results는 현재 RFC 8601을 참고합니다.
 
-## Received와 신뢰 경계
+DMARC pass는 내용이 안전하다거나 실제 사람이 승인했다는 뜻이 아닙니다. 정상 도메인의 탈취 계정, 유사 도메인과 표시 이름 사칭은 별도 조사해야 합니다.
 
-새 Received가 상단에 추가됩니다. 신뢰하는 수신 게이트웨이가 기록한 상단 구간을 확인한 뒤 신뢰 경계를 정하고 시간순서 후보를 아래에서 위로 읽습니다. 외부에서 주입된 아래쪽 줄을 무조건 최초 발신 IP로 믿지 않습니다.
+## 학습 활동
 
-Authentication-Results도 누가 생성했는지 확인합니다. 헤더에 pass 문자열이 있다고 검증 성공을 직접 입증한 것은 아닙니다.
-
-## SPF·DKIM·DMARC
-
-| 방식 | 검토하는 것 | 한계 |
-| --- | --- | --- |
-| SPF | 연결 IP와 봉투 발신 도메인의 허용 | 표시 From·내용 전체 보증 아님 |
-| DKIM | 서명 도메인과 지정된 헤더·본문 검증 | 서명 존재와 검증 성공은 다름 |
-| DMARC | From 도메인과 정렬된 SPF 또는 DKIM 성공 | 안전한 내용·미침해 계정 보증 아님 |
-
-SPF의 fail·softfail·neutral·none·오류 상태는 의미가 다릅니다. 한 실패를 곧바로 모든 스팸·피싱과 동일 분류하지 않습니다. 전달·변경·메일링리스트가 정상 인증 실패를 만들 수도 있습니다.
-
-**작은 활동:** 원본 .eml에서 From·Return-Path·Received·Authentication-Results를 별도 표에 옮깁니다.
-
-**완료 기준:** 제출·전달·접근, 봉투·표시 발신, 인증·콘텐츠 안전을 구분합니다.
-
-## 최신 보강과 실무 연결
-
-2026년 DMARC RFC 9989와 ARC·SaaS 감사는 [메일 조사](email-investigation.html)에서 추가 확인합니다. 토큰 피싱·BEC는 도메인 인증 통과 후에도 신원·규칙·업무 요청을 조사할 이유입니다.
+[교육용 EML](downloads/blue-team-day2-mail.eml)을 원문으로 읽고 신뢰 경계·주소·인증 도메인을 표로 작성합니다. 마지막 메일 실습에서 MIME 첨부를 실행 없이 해석하고 N02와 연결합니다.
 
 ## 공개 참고자료
 
-- [RFC 5321 — SMTP](https://www.rfc-editor.org/rfc/rfc5321)
-- [RFC 5322 — 메시지 형식](https://www.rfc-editor.org/rfc/rfc5322)
-- [RFC 6409 — 메일 제출](https://www.rfc-editor.org/rfc/rfc6409)
-- [Microsoft — 메일 인증](https://learn.microsoft.com/en-us/defender-office-365/email-authentication-about)
+- [RFC 5321 — SMTP](https://www.rfc-editor.org/rfc/rfc5321.html)
+- [RFC 8601 — Authentication-Results](https://www.rfc-editor.org/rfc/rfc8601.html)
+- [RFC 9989 — DMARC, 2026년 5월](https://www.rfc-editor.org/rfc/rfc9989.html)

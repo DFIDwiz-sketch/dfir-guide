@@ -48,7 +48,7 @@ dialog{width:min(640px,calc(100vw - 32px));padding:25px;border:1px solid #d0dce1
 .chapter-navigation-title{margin:0 0 12px;font-size:.86rem;font-weight:700;color:#315b66}
 .chapter-navigation-title a{color:inherit;text-underline-offset:3px}
 .curriculum-card{height:auto}
-#day1 .curriculum-list{grid-template-columns:1fr}
+#day1 .curriculum-list,#day2 .curriculum-list{grid-template-columns:1fr}
 .chapter-parts .chapter-part-list{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
 .curriculum-list>li{min-width:0}
 .prose .lesson-diagram{display:block;width:100%;height:auto;margin:24px 0}

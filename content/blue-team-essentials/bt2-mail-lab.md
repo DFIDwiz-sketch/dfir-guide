@@ -1,8 +1,8 @@
 ---
 title: "실습 2.3: SMTP와 이메일 분석"
-description: "가상 메일의 신뢰 경계·발신·인증 평가를 읽고 로그인·규칙·미확인 관계를 기록합니다."
+description: "가상 EML의 신뢰 경계·From 정렬·MIME 첨부를 분석하고 같은 객체의 해시와 사건 흐름을 검증합니다."
 category: "blue-team-essentials"
-updated: "2026-10-09"
+updated: "2026-10-10"
 tags: ["2일차", "자체 실습", "블루팀 필수지식"]
 order: "312"
 level: "입문 · 교재 중심"
@@ -13,52 +13,60 @@ textbook_page: "179"
 lesson_type: "자체 실습"
 ---
 
-## 실습 목표와 자료
+## 실습 목표와 제공 자료
 
-[비작동 메일 .eml](downloads/network-day2-mail.eml), [가상 기록 JSONL](downloads/network-day2-events.jsonl), [조사 양식](downloads/network-investigation-template.md)을 사용합니다.
+EXERCISE 2.3 SMTP and Email Analysis에 대응하는 자체 실습입니다. 가상 메일의 전달·신뢰·인증 정렬과 MIME 첨부를 원문 중심으로 분석합니다. 외부 전송·실제 도메인 조회·첨부 실행은 필요하지 않습니다.
 
-메일은 실제 발송되지 않았고 검증 가능한 DKIM 서명이 없습니다. Authentication-Results의 pass는 가상 게이트웨이 평가 기록이며 직접 서명 검증 결과가 아닙니다. 원본 교재 메일과 실습 패킷을 재현한 자료가 아닙니다.
+- [교육용 EML](downloads/blue-team-day2-mail.eml)
+- [사례 JSONL](downloads/blue-team-day2-case.jsonl)
+- [조사 워크북](downloads/blue-team-day2-workbook.md)
 
-## 1단계 — 메시지 식별과 발신 읽기
+EML의 인증 결과는 분석을 위해 공급된 가상 값입니다. 실제 DKIM 서명은 제공되지 않으므로 암호 검증 성공을 주장하지 않습니다. 첨부는 무해한 텍스트이며 HTTP 응답 N07과 같은 바이트를 사용합니다.
 
-Message-ID는 lab-05@vendor.example, From·Return-Path·Reply-To는 billing@vendor.example입니다. To, Date, Subject와 함께 표로 정리합니다. 같은 발신 문자열이 있다고 개인 신원과 콘텐츠가 안전하다고 판단하지 않습니다.
+## 활동 1 · 헤더의 출처
 
-## 2단계 — 신뢰 경계 표시하기
+관리 경계는 mailbox.study.example·gateway.study.example, 신뢰된 인증 결과 식별자는 mx.study.example입니다. 세 Received를 읽되 관리 수신 서버부터 신뢰를 검토합니다. gateway 아래 ceo-laptop에서 시작했다는 줄과 외부의 dmarc=pass는 주장으로 분리합니다.
 
-상단 Received에서 lab-gateway.example이 기록한 전달 정보를 읽습니다. Authentication-Results의 authserv-id도 lab-gateway.example인 항목을 구분합니다.
+queue Q100, Message-ID와 peer 192.0.2.44를 N02와 비교합니다. peer는 경계에 연결한 중계 상대이며 최초 작성자를 증명하지 않습니다. Date는 작성자가 제시한 메시지 시각, Received는 각 서버의 처리 시각입니다.
 
-아래에 있는 untrusted-external.example의 평가와 claimed-origin.example의 추적 줄은 신뢰 범위 밖입니다. 203.0.113.99를 최초 발신자로 확정하지 않습니다. 실제 조사라면 조직의 게이트웨이 구성·메일 추적으로 신뢰 범위를 확인해야 합니다.
+## 활동 2 · 인증 정렬 표
 
-## 3단계 — 인증 평가 해석하기
-
-가상 게이트웨이는 SPF·DKIM·DMARC를 pass로 기록했습니다. SPF의 smtp.mailfrom, DKIM의 header.d, DMARC의 header.from을 구분합니다. DMARC는 정렬된 SPF 또는 DKIM 성공 조건을 사용하며 둘 모두를 필수로 요구하지 않습니다.
-
-이 파일에는 DNS·공개키·실제 서명이 없어 검증을 재수행할 수 없습니다. 기록된 평가와 직접 검증한 사실을 분리합니다.
-
-## 4단계 — 후속 신원·메일 자료 연결하기
-
-| 기록 | 확인한 것 | 추가 질문 |
+| 항목 | 값 | 해석 |
 | --- | --- | --- |
-| N005 | 계정의 메일 수신과 평가 | 업무 요청·메일 원본·추적 |
-| N009 | device-code 로그인 성공 | 실제 앱·세션·사용자 승인 |
-| N010 | 외부 전달 규칙 생성 | 승인·생성 세션·전달된 자료 |
+| Header From | billing@study.example | Author Domain=study.example |
+| MAIL FROM / Return-Path | bounce@relay.notice.example | SPF 도메인=relay.notice.example |
+| 신뢰된 SPF | pass | 그 도메인의 정책 검증 결과 |
+| 신뢰된 DKIM | pass, relay.notice.example | 공급된 서명 도메인 결과 |
+| 정렬 | 불일치 | Author Domain과 다름 |
+| 신뢰된 DMARC | fail | pass 두 개로 뒤집지 않음 |
+| 처리 | delivered_with_warning | fail이 곧 차단은 아님 |
 
-같은 계정·근접 시각은 관련 조사 후보입니다. 메일이 로그인 원인이었거나 토큰이 탈취됐다는 결론은 아직 없습니다. 전달 규칙이 실제 어떤 메시지를 보냈는지도 별도 서비스 감사가 필요합니다.
+Reply-To는 help@notice.example입니다. 정상 반송·답장 서비스도 주소가 다를 수 있으므로 업무 맥락을 확인하지만, 사칭 후보의 추가 단서로 기록할 수 있습니다. 표시 이름을 조직 신원으로 믿지 않습니다.
 
-## 5단계 — 인계문 쓰기
+## 활동 3 · MIME 첨부를 실행 없이 읽기
 
-“원본 헤더의 신뢰 경계와 인증 평가를 확인했으며, 로그인·규칙의 업무 승인과 관계는 미확인”이라고 기록합니다. 사용자 확인, 세션·앱 감사, 규칙·메일 접근 범위를 담당에게 요청합니다.
+EML의 multipart boundary, text/plain 부분, attachment 선언과 base64를 확인합니다. 첨부 이름·MIME·해시·바이트 수를 기록합니다. 아래 코드는 첨부를 디코딩해 크기와 해시만 비교하며 파일을 실행하거나 외부 연결하지 않습니다.
 
-**완료 기준:** 원본 식별표, 신뢰 경계 표시, 인증 평가표, 후속 자료·정상 설명·미확인 항목을 연결합니다.
+~~~python
+import json, hashlib
+from pathlib import Path
+from email import policy
+from email.parser import BytesParser
+mail = BytesParser(policy=policy.default).parsebytes(Path("blue-team-day2-mail.eml").read_bytes())
+rows = [json.loads(x) for x in Path("blue-team-day2-case.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+download = next(r for r in rows if r["id"] == "N07")
+print("Received:", len(mail.get_all("Received", [])))
+print("Authentication-Results:", len(mail.get_all("Authentication-Results", [])))
+for item in mail.iter_attachments():
+    data = item.get_payload(decode=True)
+    digest = hashlib.sha256(data).hexdigest()
+    print(item.get_filename(), len(data), digest == download["file_sha256"])
+~~~
 
-**막힐 때:** 화면 캡처 대신 .eml 원문 → 헤더 줄 접힘 → 신뢰 시스템 → 서비스 ID·시각 → 감사 보존·권한 순서로 확인합니다.
+기대 출력은 Received: 3, Authentication-Results: 2, training-note.txt 36 True입니다. 같은 해시는 동일한 바이트 객체의 단서입니다. 메일에서 웹으로 실제 전달되었다거나 사용자가 첨부를 실행했다는 인과관계는 이 결과만으로 확인되지 않습니다.
 
-## 최신 보강과 실무 연결
+## 활동 4 · 전체 사건으로 연결하기
 
-현재 DMARC·ARC·토큰 피싱·BEC 조사와 조치는 [메일 조사](email-investigation.html), [클라우드 계정·토큰 대응](cloud-identity-response.html)으로 연결합니다. 비밀번호 변경·규칙 삭제만으로 모든 세션·앱 권한이 해소됐다고 가정하지 않습니다.
+메일→DNS→웹의 가까운 시각은 관련 후보를 제공합니다. 메일 링크와 N05의 경로가 같지만 사용자 클릭은 제공 자료에 없습니다. 리졸버의 사전 조회, 검사 서비스와 다른 정상 활동 가능성을 검토합니다. 필요 시 클릭 감사·프록시 계정·브라우저·계정 로그를 요청합니다.
 
-## 공개 참고자료
-
-- [RFC 5321 — SMTP](https://www.rfc-editor.org/rfc/rfc5321)
-- [RFC 8601 — 인증 결과 헤더](https://www.rfc-editor.org/rfc/rfc8601)
-- [RFC 9989 — DMARC](https://www.rfc-editor.org/rfc/rfc9989)
+워크북에 관측·해석·미확인을 분리하고 N23의 단말 Hunt 결과 대기 상태를 남깁니다. 마지막 사건 요약에는 “신뢰된 인증 결과는 From 정렬 실패이며 경고 전달되었다. 후속 웹 거래와 DNS 후보가 관측되었으나 실행·유출·최초 작성자는 미확인”처럼 증거 범위를 적습니다.
